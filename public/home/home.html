@@ -1,0 +1,119 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 noPadding">
+            <button ng-class="{
+                   'btn': true,
+                   'btn-block': true,
+                   'btn-success': dataLoaded == 1,
+                   'btn-warning': dataLoaded == 0,
+                   'btn-danger': dataLoaded == 2
+                }" ng-click="UpdateToServer()">Статус данных</button>
+            <div class="container-fluid" ng-hide="infoEnabled">
+                <div class="row">
+                    <div class="col-xs-1 homeMainImageWrapper homeMainImageChevron" ng-click="PrevImage()">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                    </div>
+                    <div class="col-xs-10 noPadding">
+                        <div class="homeMainImageWrapper">
+                            <show-image src-name="{{displayImageNumber > -1 ? imageList[displayImageNumber] : '/data/placeholder'}}" class="homeMainImage"></show-image>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 homeMainImageWrapper homeMainImageChevron" ng-click="NextImage()">
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="row paddingTop10">
+                    <div class="col-xs-12">
+                        <button class="btn btn-block btn-default" ng-click="HideImage()">Скрыть</button>
+                    </div>
+                </div>
+                <div class="row paddingTop10">
+                    <div class="col-xs-12">
+                        <input type="text" ng-model="item.code" placeholder="код">
+                    </div>
+                </div>
+                <div class="row paddingTop10">
+                    <div class="col-xs-6">
+                        <button class="btn btn-block btn-default" ng-click="NextTask()">Следующее задание</button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button class="btn btn-block btn-default" ng-click="GetInfo()">Информация</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" ng-show="task.type==1 || task.type==4">{{task.desc}}</div>
+
+                    <div class="row" ng-show="task.type==2">
+                        <div class="col-xs-12 textCenter paddingTop10 paddingBottom10">
+                            {{task.desc}}
+                        </div>
+                        <div class="col-xs-8 textCenter">
+                            <input type="text" ng-model="answer.text" placeholder="название">
+                        </div>
+                        <div class="col-xs-4">
+                            <button class="btn btn-block btn-default" ng-click="Answer()">Добавить</button>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="task.type==3">
+                        <div class="col-xs-12 textCenter paddingTop10 paddingBottom10">
+                            {{task.desc}}
+                        </div>
+                        <div class="col-xs-12">
+                            <button class="btn btn-block btn-default" ng-click="Answer()">Выбрать текущую фотографию</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid homeInfoMaxHeightScroll" ng-show="infoEnabled">
+                <div class="row paddingTop10">
+                    <div class="col-xs-2 textCenter">
+                        Готово:
+                    </div>
+                    <div class="col-xs-6 textCenter">
+                        {{info.complete ? "Да" : "Нет"}}
+                    </div>
+                    <div class="col-xs-2 textCenter homeInfoCloseButton" ng-click="CloseInfo()">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 textCenter">
+                        Код:
+                    </div>
+                    <div class="col-xs-7 textCenter">
+                        {{info.code}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 textCenter">
+                        Название:
+                    </div>
+                    <div class="col-xs-7 textCenter">
+                        {{info.name == '' ? 'Не указано' : info.name}}
+                    </div>
+                    <div class="col-xs-2 textCenter homeInfoCloseButton" ng-click="info.DeleteName()">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="uImage in info.urls">
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="homeInfoListItemImage" ng-style="{'background-image': 'url({{uImage.url}})'}"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 textCenter">
+                                {{uImage.desc}} ({{uImage.code}})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 homeInfoImageRemove" ng-click="info.RemoveImage(uImage.code, $index)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
